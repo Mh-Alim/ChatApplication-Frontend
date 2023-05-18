@@ -12,7 +12,7 @@ const sendUser = () => {
 }
 
 
-const Join = () => {
+const Join = (props) => {
 
     const [name, setname] = useState("");
 
@@ -21,8 +21,10 @@ const Join = () => {
             <div className="JoinContainer">
                 <img src={logo} alt="logo" />
                 <h1>Hey There</h1>
-                <input onChange={(e) => setname(e.target.value)} placeholder="Enter Your Name" type="text" id="joinInput" />
+                <input onChange={(e) => setname(e.target.value)} placeholder="Enter Your Name" type="text" id='joinInput' className="joinInput" />
                 <Link onClick={(event) => !name ? event.preventDefault() : null} to="/chat">  <button onClick={sendUser} className="joinbtn">Let's Chat</button></Link>
+                <br />
+                <Link onClick={(event) => !name ? event.preventDefault() : null} to="/group">  <button onClick={sendUser} className="joinbtn">Make Table</button></Link>
             </div>
         </div>
     )

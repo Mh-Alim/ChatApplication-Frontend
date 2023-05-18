@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React,{useState,useEffect} from "react";
 import { user } from "../Join/Join";
+import { groupName } from "./Group";
 import sendLogo from "../../images/send.png";
 import socketIo from "socket.io-client";
-import "./Chat.css";
+import "../Chat/Chat.css";
 import Message from "../Message/Message.js";
 import ReactScroll from "react-scroll-to-bottom";
 import closeIcon from "../../images/closeIcon.png";
+import { useParams } from "react-router-dom";
 
 let socket;
 // const ENDPOINT = "https://heythere-chat-app.herokuapp.com/"
 const ENDPOINT = "http://localhost:4500";
-const Chat = () => {
-  const [id, setId] = useState("");
+const GroupChat = () => {
+  let { RoomId, roomName } = useParams();
+  let roomId = RoomId + roomName;
+
+  console.log("roomid and name ",RoomId,roomName,roomId);
+  const [id, setId] = useState();
   const [message, setMessage] = useState([]);
 
   const send = () => {
     const message = document.getElementById("chatInput").value;
-    socket.emit("message", { message, id });
+    socket.emit("message", { message, id,roomId });
     document.getElementById("chatInput").value = "";
   };
-  console.log(message);
 
   useEffect(() => {
     socket = socketIo(ENDPOINT, { transports: ["websocket"] });
@@ -29,7 +34,7 @@ const Chat = () => {
       console.log("connected", socket.id);
     });
 
-    socket.emit("joined", { user });
+    socket.emit("joined", { user,roomId });
 
     socket.on("Welcome", (data) => {
       setMessage((prevMessage) => [...prevMessage, data]);
@@ -37,6 +42,7 @@ const Chat = () => {
     });
 
     socket.on("userJoined", (data) => {
+      console.log("getiing user joined");
       setMessage((prevMessage) => [...prevMessage, data]);
       console.log(data.user, data.message);
     });
@@ -54,14 +60,11 @@ const Chat = () => {
       socket.off();
     };
   }, []);
-
-
-
   return (
     <div className="chatPage">
       <div className="chatContainer">
         <div className="header">
-          <h2>hey there</h2>
+          <h2>{roomName}</h2>
           <a href="/">
             <img src={closeIcon} alt="" />
           </a>
@@ -69,7 +72,7 @@ const Chat = () => {
         <ReactScroll className="chatBox">
           {message.map((item, i) => (
             <Message
-              key={item.id}
+              key={i}
               user={id === item.id ? "" : item.user}
               message={item.message}
               classs={id === item.id ? "right" : "left"}
@@ -91,4 +94,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default GroupChat;

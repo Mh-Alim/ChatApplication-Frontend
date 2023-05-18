@@ -34,7 +34,7 @@ background: linear-gradient(to right, #004e92, #000428); /* W3C, IE 10+/ Edge, F
     box-sizing: border-box;
 }
 
-#joinInput{
+.joinInput{
     width: 25vmax;
     padding: 1.5vmax;
     border: none;
