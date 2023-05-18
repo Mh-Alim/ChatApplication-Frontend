@@ -11,15 +11,18 @@ let socket;
 // const ENDPOINT = "https://heythere-chat-app.herokuapp.com/"
 const ENDPOINT = "http://localhost:4500";
 const Chat = () => {
-  const [id, setId] = useState("");
+  
+  let roomId = "" ;
+  let roomName = "hey chat";
+  const [id, setId] = useState();
   const [message, setMessage] = useState([]);
+  const [totUsers, setTotUsers] = useState(0);
 
   const send = () => {
     const message = document.getElementById("chatInput").value;
-    socket.emit("message", { message, id });
+    socket.emit("message", { message, id,roomId });
     document.getElementById("chatInput").value = "";
   };
-  console.log(message);
 
   useEffect(() => {
     socket = socketIo(ENDPOINT, { transports: ["websocket"] });
@@ -29,14 +32,20 @@ const Chat = () => {
       console.log("connected", socket.id);
     });
 
-    socket.emit("joined", { user });
+
+    socket.emit("joined", { user,roomId });
 
     socket.on("Welcome", (data) => {
       setMessage((prevMessage) => [...prevMessage, data]);
       console.log(data.user, data.message);
     });
 
+    socket.on("total-user", (data) => {
+      setTotUsers(data);
+    })
+
     socket.on("userJoined", (data) => {
+      console.log("getiing user joined");
       setMessage((prevMessage) => [...prevMessage, data]);
       console.log(data.user, data.message);
     });
@@ -59,6 +68,7 @@ const Chat = () => {
 
   return (
     <div className="chatPage">
+      <div className="show_total_user">{ totUsers } User's</div>
       <div className="chatContainer">
         <div className="header">
           <h2>hey there</h2>

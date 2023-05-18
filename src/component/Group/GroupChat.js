@@ -19,6 +19,7 @@ const GroupChat = () => {
   console.log("roomid and name ",RoomId,roomName,roomId);
   const [id, setId] = useState();
   const [message, setMessage] = useState([]);
+  const [totUsers, setTotUsers] = useState(0);
 
   const send = () => {
     const message = document.getElementById("chatInput").value;
@@ -34,12 +35,17 @@ const GroupChat = () => {
       console.log("connected", socket.id);
     });
 
+
     socket.emit("joined", { user,roomId });
 
     socket.on("Welcome", (data) => {
       setMessage((prevMessage) => [...prevMessage, data]);
       console.log(data.user, data.message);
     });
+
+    socket.on("total-user", (data) => {
+      setTotUsers(data);
+    })
 
     socket.on("userJoined", (data) => {
       console.log("getiing user joined");
@@ -62,6 +68,7 @@ const GroupChat = () => {
   }, []);
   return (
     <div className="chatPage">
+      <div className="show_total_user">{ totUsers } User's</div>
       <div className="chatContainer">
         <div className="header">
           <h2>{roomName}</h2>

@@ -8,12 +8,20 @@ background: linear-gradient(to right, #1fddff, #ff4b1f); /* W3C, IE 10+/ Edge, F
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .chatContainer{
     background-color: white;
     height: 60%;
     width: 50%;
+}
+
+.show_total_user {
+    position: absolute;
+    right: 4rem;
+    top: 4rem;
+    color: white;
 }
 
 .header{
