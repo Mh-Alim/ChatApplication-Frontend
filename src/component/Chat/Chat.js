@@ -8,8 +8,8 @@ import ReactScroll from "react-scroll-to-bottom";
 import closeIcon from "../../images/closeIcon.png";
 
 let socket;
-// const ENDPOINT = "https://heythere-chat-app.herokuapp.com/"
-const ENDPOINT = "http://localhost:4500";
+const ENDPOINT = "https://chat-application-guc6.onrender.com"
+// const ENDPOINT = "http://localhost:4500";
 const Chat = () => {
   
   let roomId = "" ;

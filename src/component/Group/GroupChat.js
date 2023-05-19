@@ -10,8 +10,8 @@ import closeIcon from "../../images/closeIcon.png";
 import { useParams } from "react-router-dom";
 
 let socket;
-// const ENDPOINT = "https://heythere-chat-app.herokuapp.com/"
-const ENDPOINT = "http://localhost:4500";
+const ENDPOINT = "https://chat-application-guc6.onrender.com"
+// const ENDPOINT = "http://localhost:4500";
 const GroupChat = () => {
   let { RoomId, roomName } = useParams();
   let roomId = RoomId + roomName;
